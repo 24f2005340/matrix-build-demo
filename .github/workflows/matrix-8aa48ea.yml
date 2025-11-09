@@ -10,29 +10,25 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ['3.9', '3.10', '3.11']
+        include:
+          - os: ubuntu-latest
+            version: 1
+          - os: ubuntu-latest
+            version: 2
+          - os: ubuntu-latest
+            version: 3
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-
       - name: matrix-8aa48ea
-        run: echo "Building on ${{ matrix.os }} with Python ${{ matrix.python-version }}"
+        run: echo "Building variant ${{ matrix.version }} on ${{ matrix.os }}"
 
       - name: Generate build artifact
         run: |
-          echo "Build output for OS=${{ matrix.os }}, Python=${{ matrix.python-version }}" > output.txt
+          echo "Build output for variant=${{ matrix.version }}, OS=${{ matrix.os }}" > output.txt
           echo "Timestamp: $(date)" >> output.txt
           echo "Matrix ID: 8aa48ea" >> output.txt
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-8aa48ea-${{ matrix.os }}-py${{ matrix.python-version }}
-          path: output.txt
+      - na
